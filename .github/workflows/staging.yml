@@ -36,7 +36,7 @@ jobs:
 
       - name: Read key-value pairs secret
         id: read-secret
-        run: echo "${{ secrets.STAGING_ENV_FILE }}" >> .env && export $(xargs < .env)
+        run: echo "${{ secrets.STAGING_ENV_FILE }}" > .env 
 
       - name: Print DB_HOST
         run: echo ${{ env.DB_HOST }}    
