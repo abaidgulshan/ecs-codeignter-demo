@@ -6,7 +6,7 @@ on:
       - staging
 
 
-env:
+#env:
   #AWS_REGION: ${{ secrets.STAGING_AWS_REGION }}                
   #ECR_REPOSITORY: ${{ secrets.STAGING_ECS_REPOSITORY_URI }}   
   #ECS_SERVICE: ${{ secrets.STAGING_ECS_SERVICE_NAME }}               
@@ -15,7 +15,7 @@ env:
   #CONTAINER_NAME: ${{ secrets.STAGING_CONTAINER_NAME }}        
   #DB_HOST: ${{ secrets.STAGING_DB_HOST }}
   #DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
-  DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
+  #DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
   #DB_NAME: ${{ secrets.STAGING_DB_NAME }}
 
 
