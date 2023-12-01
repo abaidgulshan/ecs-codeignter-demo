@@ -43,7 +43,6 @@ jobs:
 
       - name: Display environment variables
         run: |
-          cat .env
           echo "AWS_REGION=${AWS_REGION}"
           echo "DB_HOST=${DB_HOST}"
           echo "DB_USERNAME=${DB_USERNAME}"
