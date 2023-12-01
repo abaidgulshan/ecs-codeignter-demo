@@ -35,17 +35,17 @@ jobs:
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
       - name: Do Something with env files
-        run: echo ${{ secrets.STAGING_ENV_FILE }} | tr '\n' ' ' > .env
+        run: echo ${{ secrets.STAGING_ENV_FILE }} | tr '\n' ' ' > .env && export $(xargs < .env)
 
       - name: Print DB_HOST
-        run: echo ${{ env.DB_HOST }}          
+        run: echo $DB_HOST        
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: $AWS_REGION
 
       - name: Login to Amazon ECR
         id: login-ecr
