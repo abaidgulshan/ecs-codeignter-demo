@@ -35,7 +35,7 @@ jobs:
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
       - name: Do Something with env files
-        run: echo ${{ secrets.STAGING_ENV_FILE }}> .env
+        run: echo ${{ secrets.STAGING_ENV_FILE }} | tr '\n' ' ' > .env
 
       - name: Print DB_HOST
         run: echo ${{ env.DB_HOST }}          
