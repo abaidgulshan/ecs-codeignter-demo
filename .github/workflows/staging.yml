@@ -34,11 +34,22 @@ jobs:
       #   run: |
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
-      - name: Do Something with env files
-        run: echo ${{ secrets.STAGING_ENV_FILE }} | tr '\n' ' ' > .env && export $(xargs < .env)
+      - name: Read key-value pairs secret
+        id: read-secret
+        run: echo ${{ secrets.STAGING_ENV_FILE }}
+
+      - name: Parse key-value pairs
+        id: parse-pairs
+        run: |
+          key_value_pairs=$(jq -r 'split("\n")' <<< ${{ steps.read-secret.outputs.KEY_VALUE_PAIRS }})
+          env_file=$(echo "${key_value_pairs}" | tr -d '""')
+
+      - name: Generate env file
+        run: |
+          echo "$env_file" > .env
 
       - name: Print DB_HOST
-        run: echo $DB_HOST        
+        run: echo ${{ env.DB_HOST }}    
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
