@@ -34,19 +34,33 @@ jobs:
       #   run: |
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
-      - name: Split and export environment variables
+      - name: Create environment file
         run: |
-          IFS=';' read -ra ENV_VARS <<< "${{ secrets.STAGING_ENV_FILE }}"
-          for var in "${ENV_VARS[@]}"; do
-            export "$var"
-          done
+          echo "${{ secrets.STAGING_ENV_FILE }}" | tr '\n' ' ' | xargs -d ' ' -I 'key=value' echo "${{ key }}" >> .env
+          echo "${{ key }}" | cut -d '=' -f 2 >> .env
+          echo "::set-output name=env_file_path::.env"
 
-      - name: Display environment variables
+      - name: Upload environment file as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: env-file
+          path: ${{ steps.convert-env.outputs.env_file_path }}
+
+      - name: Download environment file
+        uses: actions/download-artifact@v3
+        with:
+          name: env-file
+          path: .env
+
+      # - name: Read environment file
+      #   id: read-env
+      #   run: |
+      #     env_file=<span class="math-inline">\(cat \.env\)env\_vars\=</span>(echo "$env_file" | tr '\n' ' ')
+
+      - name: Access environment variables
         run: |
-          echo "AWS_REGION=${AWS_REGION}"
-          echo "DB_HOST=${DB_HOST}"
-          echo "DB_USERNAME=${DB_USERNAME}"
-          echo "DB_NAME=${DB_NAME}"
+          echo "DB_HOST = ${{ env.DB_HOST }}"
+          echo "DB_USERNAME = ${{ env.DB_USERNAME }}"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
