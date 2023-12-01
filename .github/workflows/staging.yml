@@ -34,29 +34,15 @@ jobs:
       #   run: |
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
+      - name: Convert key-value pairs to environment file
+        run: |
+          env_vars=$(echo "${{ secrets.STAGING_ENV_FILE  }}" | tr '\n' ' ')
+          echo "::set-output name=env_file::$env_vars"
+
       - name: Create environment file
         run: |
-          echo "${{ secrets.STAGING_ENV_FILE }}" | tr '\n' ' ' | xargs -d ' ' -I 'key=value' echo "${{ key }}" >> .env
-          echo "${{ key }}" | cut -d '=' -f 2 >> .env
-          echo "::set-output name=env_file_path::.env"
-
-      - name: Upload environment file as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: env-file
-          path: ${{ steps.convert-env.outputs.env_file_path }}
-
-      - name: Download environment file
-        uses: actions/download-artifact@v3
-        with:
-          name: env-file
-          path: .env
-
-      # - name: Read environment file
-      #   id: read-env
-      #   run: |
-      #     env_file=<span class="math-inline">\(cat \.env\)env\_vars\=</span>(echo "$env_file" | tr '\n' ' ')
-
+          echo "${{ steps.convert-to-env-file.outputs.env_file }}" | tr ' ' '\n' > .env
+          
       - name: Access environment variables
         run: |
           echo "DB_HOST = ${{ env.DB_HOST }}"
