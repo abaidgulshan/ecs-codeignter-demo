@@ -30,16 +30,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 'Create env file'
-        run: |
-          echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
+      # - name: 'Create env file'
+      #   run: |
+      #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
-      - name: Read and export environment variables
-        id: env_vars
+      - name: Split and export environment variables
         run: |
-          while IFS= read -r line; do
-            export "$line"
-          done < .env
+          IFS=';' read -ra ENV_VARS <<< "${{ secrets.STAGING_ENV_FILE }}"
+          for var in "${ENV_VARS[@]}"; do
+            export "$var"
+          done
 
       - name: Display environment variables
         run: |
