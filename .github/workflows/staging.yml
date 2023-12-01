@@ -7,14 +7,14 @@ on:
 
 
 env:
-  #AWS_REGION: ${{ secrets.STAGING_AWS_REGION }}                
-  #ECR_REPOSITORY: ${{ secrets.STAGING_ECS_REPOSITORY_URI }}   
-  #ECS_SERVICE: ${{ secrets.STAGING_ECS_SERVICE_NAME }}               
-  #ECS_CLUSTER: ${{ secrets.STAGING_ECS_CLUSTER_NAME}}             
-  #ECS_TASK_DEFINITION: ${{ secrets.STAGING_TASK_DEFINITION_NAME  }}                              
-  #CONTAINER_NAME: ${{ secrets.STAGING_CONTAINER_NAME }}        
-  DB_HOST: ${{ secrets.STAGING_DB_HOST }}
-  DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
+  AWS_REGION: "us-east-1"               
+  ECR_REPOSITORY: "agulshan-demo"   
+  ECS_SERVICE: "php-agulshan-stage"             
+  ECS_CLUSTER: "demo-agulshan"            
+  ECS_TASK_DEFINITION: "php-agulshan-staging"                            
+  CONTAINER_NAME: "php-agulshan-staging"     
+  # DB_HOST: ${{ secrets.STAGING_DB_HOST }}
+  # DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
   #DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
   #DB_NAME: ${{ secrets.STAGING_DB_NAME }}
 
@@ -30,16 +30,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: 'Create env file'
-      #   run: |
-      #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
-
-      - name: Read key-value pairs secret
-        id: read-secret
-        run: echo "${{ secrets.STAGING_ENV_FILE }}" >> .env  && export $(xargs < .env)
-
-      - name: Print DB_HOST
-        run: echo ${{ env.DB_HOST }}    
+       - name: 'Create env file'
+         run: |
+           echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
