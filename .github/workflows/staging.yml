@@ -34,19 +34,11 @@ jobs:
       #   run: |
       #     echo "${{ secrets.STAGING_ENV_FILE }}" >> .env
 
-      - name: Convert key-value pairs to environment file
+      - name: Do Something with env files
+        env:
+          STAGING_ENV_FILE: ${{ secrets.STAGING_ENV_FILE }}
         run: |
-          env_vars=$(echo "${{ secrets.STAGING_ENV_FILE  }}" | tr '\n' ' ')
-          echo "::set-output name=env_file::$env_vars"
-
-      - name: Create environment file
-        run: |
-          echo "${{ steps.convert-to-env-file.outputs.env_file }}" | tr ' ' '\n' > .env
-          
-      - name: Access environment variables
-        run: |
-          echo "DB_HOST = ${{ env.DB_HOST }}"
-          echo "DB_USERNAME = ${{ env.DB_USERNAME }}"
+          echo $QA_ENV_FILE > .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
