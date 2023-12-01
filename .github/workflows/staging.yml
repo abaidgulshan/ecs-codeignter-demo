@@ -7,17 +7,12 @@ on:
 
 
 env:
-  AWS_REGION: "us-east-1"               
-  ECR_REPOSITORY: "agulshan-demo"   
-  ECS_SERVICE: "php-agulshan-stage"             
-  ECS_CLUSTER: "demo-agulshan"            
-  ECS_TASK_DEFINITION: "php-agulshan-staging"                            
-  CONTAINER_NAME: "php-agulshan-staging"     
-  # DB_HOST: ${{ secrets.STAGING_DB_HOST }}
-  # DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
-  #DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
-  #DB_NAME: ${{ secrets.STAGING_DB_NAME }}
-
+  AWS_REGION: us-east-1              
+  ECR_REPOSITORY: agulshan-demo
+  ECS_SERVICE: php-agulshan-stage          
+  ECS_CLUSTER: demo-agulshan
+  ECS_TASK_DEFINITION: php-agulshan-staging                       
+  CONTAINER_NAME: php-agulshan-staging    
 
 
 jobs:
