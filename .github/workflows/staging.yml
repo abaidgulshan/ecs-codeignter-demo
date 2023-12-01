@@ -41,7 +41,7 @@ jobs:
       - name: Parse key-value pairs
         id: parse-pairs
         run: |
-          key_value_pairs=$(jq -r 'split("\n")' <<< ${{ steps.read-secret.outputs.KEY_VALUE_PAIRS }})
+          key_value_pairs=$(jq -r 'split("\n")' <<< "${{ steps.read-secret.outputs.KEY_VALUE_PAIRS }}")
           env_file=$(echo "${key_value_pairs}" | tr -d '""')
 
       - name: Generate env file
