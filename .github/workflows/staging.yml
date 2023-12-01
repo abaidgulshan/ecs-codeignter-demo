@@ -43,11 +43,12 @@ jobs:
 
       - name: Display environment variables
         run: |
+          cat .env
           echo "AWS_REGION=${AWS_REGION}"
           echo "DB_HOST=${DB_HOST}"
           echo "DB_USERNAME=${DB_USERNAME}"
           echo "DB_NAME=${DB_NAME}"
-          
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
